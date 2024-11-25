@@ -34,6 +34,10 @@ def update_user(id):
 def delete_user(id):
     pass
 
+@app.route("/api/events/")
+def get_all_events():
+    pass
+
 @app.route("/api/event/<int:id>/")
 def get_event(id):
     pass

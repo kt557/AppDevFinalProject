@@ -14,6 +14,10 @@ with app.app_context():
     db.create_all()
 
 # Routes here!
+@app.route("/api/users/")
+def get_all_users():
+    pass
+
 @app.route("/api/user/<int:id>/")
 def get_user(id):
     pass

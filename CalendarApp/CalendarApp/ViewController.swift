@@ -6,12 +6,17 @@
 //
 
 import UIKit
+import CalendarKit
+import EventKit
 
-class ViewController: UIViewController {
+class ViewController: DayViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .white
+        title = "My Calendar"
+      
+        
     }
 
 

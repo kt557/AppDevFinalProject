@@ -4,14 +4,6 @@ db = SQLAlchemy()
 
 # your classes here
 
-users_to_events = db.Table("users_to_events", db.Model.metadata,
-                           db.Column("user_id", db.Integer,
-                                     db.ForeignKey("users.id")),
-                           db.Column("event_id", db.Integer,
-                                     db.ForeignKey("events.id"))
-                           )
-
-
 class User (db.Model):
     """
     User model
@@ -21,8 +13,7 @@ class User (db.Model):
     name = db.Column(db.String, nullable=False)
     password = db.Column(db.String, nullable=False)
 
-    attending = db.relationship(
-        "Event", secondary=users_to_events, back_populates='attendees')
+    events = db.relationship("Event", cascade="delete")
 
     def __init__(self, **kwargs):
         """
@@ -48,15 +39,14 @@ class Event (db.Model):
     __tablename__ = "events"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String, nullable=False)
-
-    attendees = db.relationship(
-        "User", secondary=users_to_events, back_populates='attending')
+    user = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     def __init__(self, **kwargs):
         """
         Initialize event object
         """
         self.title = kwargs.get("title")
+        self.user = kwargs.get("user")
 
     def serialize(self):
         """
@@ -65,5 +55,5 @@ class Event (db.Model):
         return {
             "id": self.id,
             "title": self.title,
-            "users": [a.serialize() for a in self.attendees]
+            "user": User.query.filter_by(id=self.user).first().serialize()
         }

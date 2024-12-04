@@ -89,7 +89,7 @@ def login():
 
     user = User.query.filter_by(name=name).first()
     if user is None or user.password is not password:
-        return json.dumps({"login": False}), 200
+        return json.dumps({"login": False, "id": None}), 200
 
     return json.dumps({"login": True, "id": user.id}), 200
 

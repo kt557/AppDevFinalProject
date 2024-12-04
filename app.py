@@ -145,7 +145,7 @@ def get_user_events(id):
     for e in events:
         del e["user"]
 
-    return json.dumps(events)
+    return json.dumps({"events": events})
 
 
 @app.route("/api/user/<int:id>/event/", methods=["POST"])

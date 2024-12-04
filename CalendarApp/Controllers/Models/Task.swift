@@ -8,8 +8,7 @@
 import Foundation
 
 struct Task {
-    let name: String
-    let month: String
+   
     let message: String
-    let dueDate: String
+ 
 }

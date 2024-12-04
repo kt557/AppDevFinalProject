@@ -22,10 +22,9 @@ class ViewController: UIViewController {
     
     
     //MARK: - Properties (data)
-    private var tasks: [Task] = [Task(name: "Ming", month: "January", message: "Submit internship applications", dueDate: "January 1st, 2025"), Task(name: "Ming", month: "January", message: "Submit A7", dueDate: "January 9th, 2025"), Task(name: "Ming", month: "February", message: "Fill out Ivy meal forms", dueDate: "Febrary 7th, 2025"), Task(name: "Ming", month: "March", message: "Finish project team applications", dueDate: "March 7th, 2025")]
-   let months: [String] = ["All","January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Decemeber"]
-    var selectedMonth:String? = nil
-    var filtered: [Task] = []
+    private var tasks: [Task] = [Task( message: "Submit internship applications"), Task( message: "Submit A7"), Task( message: "Fill out Ivy meal forms"), Task(message: "Finish project team applications")]
+    private var users: [User] = [User(id: "shjdksdjskd", username: "mingnaxu3", password: "helloWorld")]
+    private var currentUser: User?
     
     //MARK: - viewDidLoad
     override func viewDidLoad() {
@@ -33,41 +32,20 @@ class ViewController: UIViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = UIColor.calendarApp.offPink
+        
+        currentUser = users.first
 
         setUpTaskCollectionView()
         setUpCollectionView()
         setUpAddTaskLabel()
         setUpGoodMorningLabel()
-//        setUpMonthlyTaskTabel()
-        setUpMonthCollectionView()
-        
+        setUpMonthlyTaskTabel()
+
+
     
     }
     
     //MARK: - Set up Views
-    private func setUpMonthCollectionView() {
-        let mLayout = UICollectionViewFlowLayout()
-        mLayout.scrollDirection = .horizontal
-      
-        monthCollectionView = UICollectionView(frame: .zero, collectionViewLayout: mLayout)
-        monthCollectionView.register(MonthCollectionViewCell.self, forCellWithReuseIdentifier: MonthCollectionViewCell.reuse)
-        monthCollectionView.delegate = self
-        monthCollectionView.dataSource = self
-        monthCollectionView.showsHorizontalScrollIndicator = false
-        monthCollectionView.alwaysBounceHorizontal = true
-        monthCollectionView.backgroundColor = UIColor.calendarApp.offPink
-        
-    
-        view.addSubview(monthCollectionView)
-        monthCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.leading.equalToSuperview().offset(30)
-            make.trailing.equalToSuperview()
-            make.height.equalTo(32)
-            make.width.equalTo(116)
-        }
-        
-    }
    
     private func setUpAddTaskLabel() {
         addTaskLabel.text = "Add a task:"
@@ -83,7 +61,8 @@ class ViewController: UIViewController {
     }
     
     private func setUpGoodMorningLabel() {
-        goodMorningLabel.text = "Good Morning, \n Ming"
+      
+        goodMorningLabel.text = "Good Morning, \n \( currentUser?.username ?? "User")"
         goodMorningLabel.font = .systemFont(ofSize: 32, weight: .semibold)
         goodMorningLabel.textColor = UIColor.calendarApp.black
         goodMorningLabel.numberOfLines = 2
@@ -100,7 +79,7 @@ class ViewController: UIViewController {
     }
     
     private func setUpMonthlyTaskTabel() {
-        monthlyTaskLabel.text = "Tasks for this month:"
+        monthlyTaskLabel.text = "Tasks:"
         monthlyTaskLabel.font = .systemFont(ofSize: 24, weight: .semibold)
         monthlyTaskLabel.textColor = UIColor.black
         
@@ -160,23 +139,7 @@ class ViewController: UIViewController {
 }
 
 //MARK: - UICollectionView Delegate
-extension ViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == monthCollectionView {
-            selectedMonth = months[indexPath.item]
-            print("Tapped on month: \(months[indexPath.item])")
-            if selectedMonth == "All" {
-                filtered = tasks
-            } else {
-                if let month = selectedMonth {
-                    filtered = tasks.filter { $0.month == month }
-                }
-            }
-
-        }
-        monthCollectionView.reloadData()
-    }
-}
+extension ViewController: UICollectionViewDelegate {}
 
 //MARK: - UICollectionView Data Source
 
@@ -187,11 +150,7 @@ extension ViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CreateTaskCollectionViewCell.reuse, for: indexPath) as? CreateTaskCollectionViewCell else { return UICollectionViewCell() }
             return cell
         }
-        else if collectionView == monthCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MonthCollectionViewCell.reuse, for: indexPath) as? MonthCollectionViewCell else { return UICollectionViewCell()}
-            cell.configure(month: months[indexPath.row], isSelected: months[indexPath.item] == selectedMonth)
-            return cell
-        }
+        
         else if collectionView == taskCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TaskCollectionViewCell.reuse, for: indexPath) as? TaskCollectionViewCell else { return UICollectionViewCell()}
             cell.configure(tasks: tasks[indexPath.row])
@@ -207,9 +166,7 @@ extension ViewController: UICollectionViewDataSource {
         if collectionView == createCollectionView {
             return 1
         }
-        else if collectionView == monthCollectionView {
-            return months.count
-        }
+        
         else if collectionView == taskCollectionView {
             return tasks.count
         }
@@ -235,9 +192,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         else if  (collectionView == taskCollectionView){
             return CGSize(width: 300, height: 168)
         }
-        else if collectionView == monthCollectionView {
-            return CGSize(width: 116, height: 32)
-        }
+        
         else {
             return CGSize(width: 0, height: 0)
         }

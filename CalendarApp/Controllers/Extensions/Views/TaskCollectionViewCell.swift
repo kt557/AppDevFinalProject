@@ -10,16 +10,15 @@ class TaskCollectionViewCell: UICollectionViewCell {
     //MARK: - Properties (views)
     
     private let taskText = UILabel()
-    private let dueDate = UILabel()
     private let greenBar = UIView()
+    private let trashCan = UIButton()
     private var task: Task?
     
     //MARK: Properties (data)
     static let reuse = "TaskCollectionViewCellReuse"
     
     //MARK: - Init
-    
-    
+
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,8 +27,8 @@ class TaskCollectionViewCell: UICollectionViewCell {
         layer.cornerRadius = 16
         
         setUpTaskText()
-        setUpDueDate()
         setUpGreenBar()
+        setUpTrashCan()
 
     }
 
@@ -41,7 +40,7 @@ class TaskCollectionViewCell: UICollectionViewCell {
     //MARK: - Configure
     func configure(tasks: Task) {
         taskText.text = tasks.message
-        dueDate.text = "Due date: \(tasks.dueDate)"
+   
         
     }
     
@@ -61,26 +60,32 @@ class TaskCollectionViewCell: UICollectionViewCell {
         }
         
     }
-    private func setUpDueDate() {
-        dueDate.font = .systemFont(ofSize: 14, weight: .regular)
-        dueDate.textColor = UIColor.black
+    
+    private func setUpTrashCan() {
+        trashCan.setImage(UIImage(named:"wastebasket"), for: .normal)
         
-        contentView.addSubview(dueDate)
-        dueDate.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(14)
-            make.top.equalToSuperview().offset(127)
+        contentView.addSubview(trashCan)
+        trashCan.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(14)
+            make.bottom.equalToSuperview().inset(14)
+            make.height.width.equalTo(28)
+            
         }
-        
     }
+    
+    
     private func setUpGreenBar() {
         greenBar.backgroundColor = UIColor.calendarApp.green
+        greenBar.layer.cornerRadius = 4
         greenBar.frame = CGRect(x: 0, y: 0, width: 4, height: 71)
-        greenBar.draw(CGRect(x: 0, y: 0, width: 4, height: 71))
+
         
         contentView.addSubview(greenBar)
         greenBar.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(8)
             make.top.equalToSuperview().offset(18)
+            make.width.equalTo(4)
+            make.height.equalTo(71)
         }
     }
     

@@ -19,6 +19,7 @@ class User (db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
+    password = db.Column(db.String, nullable=False)
 
     attending = db.relationship(
         "Event", secondary=users_to_events, back_populates='attendees')
@@ -28,6 +29,7 @@ class User (db.Model):
         Initialize user object
         """
         self.name = kwargs.get("name")
+        self.password = kwargs.get("password")
 
     def serialize(self):
         """
@@ -46,9 +48,6 @@ class Event (db.Model):
     __tablename__ = "events"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String, nullable=False)
-    description = db.Column(db.String, nullable=False)
-    month = db.Column(db.String, nullable=False)
-    date = db.Column(db.String, nullable=False)
 
     attendees = db.relationship(
         "User", secondary=users_to_events, back_populates='attending')
@@ -58,9 +57,6 @@ class Event (db.Model):
         Initialize event object
         """
         self.title = kwargs.get("title")
-        self.description = kwargs.get("description")
-        self.date = kwargs.get("date")
-        self.month = kwargs.get("month")
 
     def serialize(self):
         """
@@ -69,7 +65,5 @@ class Event (db.Model):
         return {
             "id": self.id,
             "title": self.title,
-            "description": self.description,
-            "date": self.date,
             "users": [a.serialize() for a in self.attendees]
         }

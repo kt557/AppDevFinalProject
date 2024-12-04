@@ -76,7 +76,7 @@ def update_user(id):
         user.password = password
 
     db.session.commit()
-    return json.dumps(user.serialize())
+    return json.dumps(user.serialize()), 201
 
 
 @app.route("/api/user/<int:id>/", methods=["DELETE"])
@@ -145,7 +145,7 @@ def get_user_events(id):
     for e in events:
         del e["user"]
 
-    return json.dumps({"events": events})
+    return json.dumps({"events": events}), 200
 
 
 @app.route("/api/user/<int:id>/event/", methods=["POST"])
@@ -180,7 +180,7 @@ def update_event(id):
         event.title = title
 
     db.session.commit()
-    return json.dumps(event.serialize())
+    return json.dumps(event.serialize()), 201
 
 
 @app.route("/api/event/<int:id>/", methods=["DELETE"])
@@ -194,7 +194,7 @@ def delete_event(id):
 
     db.session.delete(event)
     db.session.commit()
-    return json.dumps(event.serialize())
+    return json.dumps(event.serialize()), 200
 
 
 if __name__ is "__main__":

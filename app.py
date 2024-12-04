@@ -24,7 +24,7 @@ def get_all_users():
 @app.route("/api/user/<int:id>/")
 def get_user(id):
     user = User.query.filter_by(id=id).first()
-    if user == None:
+    if user is None:
         return json.dumps({"error": "User not found."}), 404
 
     return json.dumps(user.serialize()), 200
@@ -35,11 +35,11 @@ def create_user():
     body = json.loads(request.data)
     name = body.get("name")
     password = body.get("password")
-    if name == None or password == None:
+    if name is None or password is None:
         return json.dumps({"error": "Missing field in body."}), 400
 
     user = User.query.filter_by(name=name).first()
-    if user != None:
+    if user is not None:
         return json.dumps({"error": "User already exists."}), 400
 
     new_user = User(name=name, password=password)
@@ -52,15 +52,15 @@ def create_user():
 @app.route("/api/user/<int:id>/", methods=["POST"])
 def update_user(id):
     user = User.query.filter_by(id=id).first()
-    if user == None:
+    if user is None:
         return json.dumps({"error": "User not found."}), 404
 
     body = json.loads(request.data)
     name = body.get("name")
     password = body.get("password")
-    if name != None:
+    if name is not None:
         user.name = name
-    if password != None:
+    if password is not None:
         user.password = password
 
     db.session.commit()
@@ -70,7 +70,7 @@ def update_user(id):
 @app.route("/api/user/<int:id>/", methods=["DELETE"])
 def delete_user(id):
     user = User.query.filter_by(id=id).first()
-    if user == None:
+    if user is None:
         return json.dumps({"error": "User not found."}), 404
 
     db.session.delete(user)
@@ -84,11 +84,11 @@ def login():
     name = body.get("name")
     password = body.get("password")
 
-    if name == None or password == None:
+    if name is None or password is None:
         return json.dumps({"error": "Missing field in body."}), 400
 
     user = User.query.filter_by(name=name).first()
-    if user == None or user.password != password:
+    if user is None or user.password is not password:
         return json.dumps({"login": False}), 200
 
     return json.dumps({"login": True, "id": user.id}), 200
@@ -102,7 +102,7 @@ def get_all_events():
 @app.route("/api/event/<int:id>/")
 def get_event(id):
     event = Event.query.filter_by(id=id).first()
-    if event == None:
+    if event is None:
         return json.dumps({"error": "Event not found."}), 404
 
     return json.dumps(event.serialize()), 200
@@ -111,7 +111,7 @@ def get_event(id):
 @app.route("/api/user/<int:id>/events/")
 def get_user_events(id):
     user = User.query.filter_by(id=id).first()
-    if user == None:
+    if user is None:
         return json.dumps({"error": "User not found."}), 404
 
     events = [e.serialize for e in user.events]
@@ -125,7 +125,7 @@ def get_user_events(id):
 def create_event(id):
     body = json.loads(request.data)
     title = body.get("title")
-    if title == None:
+    if title is None:
         return json.dumps({"error": "Missing field in body."}), 400
 
     new_event = Event(title=title, user=id)
@@ -138,12 +138,12 @@ def create_event(id):
 @app.route("/api/event/<int:id>/", methods=["POST"])
 def update_event(id):
     event = Event.query.filter_by(id=id).first()
-    if event == None:
+    if event is None:
         return json.dumps({"error": "Event not found."}), 404
 
     body = json.loads(request.data)
     title = body.get("title")
-    if title != None:
+    if title is not None:
         event.title = title
 
     db.session.commit()
@@ -153,7 +153,7 @@ def update_event(id):
 @app.route("/api/event/<int:id>/", methods=["DELETE"])
 def delete_event(id):
     event = Event.query.filter_by(id=id).first()
-    if event == None:
+    if event is None:
         return json.dumps({"error": "Event not found."}), 404
 
     db.session.delete(event)
@@ -161,5 +161,5 @@ def delete_event(id):
     return json.dumps(event.serialize())
 
 
-if __name__ == "__main__":
+if __name__ is "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)

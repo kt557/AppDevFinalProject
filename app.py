@@ -14,9 +14,12 @@ with app.app_context():
     db.create_all()
 
 # Routes here!
+
+
 @app.route("/api/users/")
 def get_all_users():
     return json.dumps({"users": [u.serialize() for u in User.query.all()]}), 200
+
 
 @app.route("/api/user/<int:id>/")
 def get_user(id):
@@ -34,11 +37,15 @@ def create_user():
     password = body.get("password")
     if name == None or password == None:
         return json.dumps({"error": "Missing field in body."}), 400
-    
-    new_user = User(name = name, password = password)
+
+    user = User.query.filter_by(name=name).first()
+    if user != None:
+        return json.dumps({"error": "User already exists."}), 400
+
+    new_user = User(name=name, password=password)
     db.session.add(new_user)
     db.session.commit()
-    
+
     return json.dumps(new_user.serailize), 201
 
 
@@ -47,7 +54,7 @@ def update_user(id):
     user = User.query.filter_by(id=id).first()
     if user == None:
         return json.dumps({"error": "User not found."}), 404
-    
+
     body = json.loads(request.data)
     name = body.get("name")
     password = body.get("password")
@@ -58,14 +65,14 @@ def update_user(id):
 
     db.session.commit()
     return json.dumps(user.serialize())
-    
+
 
 @app.route("/api/user/<int:id>/", methods=["DELETE"])
 def delete_user(id):
     user = User.query.filter_by(id=id).first()
     if user == None:
         return json.dumps({"error": "User not found."}), 404
-    
+
     db.session.delete(user)
     db.session.commit()
     return json.dumps(user.serialize()), 200
@@ -79,11 +86,11 @@ def login():
 
     if name == None or password == None:
         return json.dumps({"error": "Missing field in body."}), 400
-    
+
     user = User.query.filter_by(name=name).first()
     if user == None or user.password != password:
         return json.dumps({"login": False}), 200
-    
+
     return json.dumps({"login": True, "id": user.id}), 200
 
 
@@ -106,7 +113,7 @@ def get_user_events(id):
     user = User.query.filter_by(id=id).first()
     if user == None:
         return json.dumps({"error": "User not found."}), 404
-    
+
     events = [e.serialize for e in user.events]
     for e in events:
         del e["user"]
@@ -120,11 +127,11 @@ def create_event(id):
     title = body.get("title")
     if title == None:
         return json.dumps({"error": "Missing field in body."}), 400
-    
-    new_event = Event(title = title, user = id)
+
+    new_event = Event(title=title, user=id)
     db.session.add(new_event)
     db.session.commit()
-    
+
     return json.dumps(new_event.serailize), 201
 
 
@@ -133,7 +140,7 @@ def update_event(id):
     event = Event.query.filter_by(id=id).first()
     if event == None:
         return json.dumps({"error": "Event not found."}), 404
-    
+
     body = json.loads(request.data)
     title = body.get("title")
     if title != None:
@@ -148,7 +155,7 @@ def delete_event(id):
     event = Event.query.filter_by(id=id).first()
     if event == None:
         return json.dumps({"error": "Event not found."}), 404
-    
+
     db.session.delete(event)
     db.session.commit()
     return json.dumps(event.serialize())

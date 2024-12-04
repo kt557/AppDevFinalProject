@@ -20,7 +20,7 @@ def get_all_users():
 
 @app.route("/api/user/<int:id>/")
 def get_user(id):
-    user = User.query.filter_by(id=id)
+    user = User.query.filter_by(id=id).first()
     if user == None:
         return json.dumps({"error": "User not found."}), 404
 
@@ -44,7 +44,7 @@ def create_user():
 
 @app.route("/api/user/<int:id>/", methods=["POST"])
 def update_user(id):
-    user = User.query.filter_by(id=id)
+    user = User.query.filter_by(id=id).first()
     if user == None:
         return json.dumps({"error": "User not found."}), 404
     
@@ -62,7 +62,7 @@ def update_user(id):
 
 @app.route("/api/user/<int:id>/", methods=["DELETE"])
 def delete_user(id):
-    user = User.query.filter_by(id=id)
+    user = User.query.filter_by(id=id).first()
     if user == None:
         return json.dumps({"error": "User not found."}), 404
     
@@ -94,7 +94,7 @@ def get_all_events():
 
 @app.route("/api/event/<int:id>/")
 def get_event(id):
-    event = Event.query.filter_by(id=id)
+    event = Event.query.filter_by(id=id).first()
     if event == None:
         return json.dumps({"error": "Event not found."}), 404
 
@@ -103,24 +103,55 @@ def get_event(id):
 
 @app.route("/api/user/<int:id>/events/")
 def get_user_events(id):
-    user = User.query.filter_by(id=id)
+    user = User.query.filter_by(id=id).first()
     if user == None:
         return json.dumps({"error": "User not found."}), 404
     
     events = [e.serialize for e in user.events]
+    for e in events:
+        del e["user"]
+
+    return json.dumps(events)
 
 
-@app.route("/api/event/", methods=["POST"])
-def create_event():
-    pass
+@app.route("/api/user/<int:id>/event/", methods=["POST"])
+def create_event(id):
+    body = json.loads(request.data)
+    title = body.get("title")
+    if title == None:
+        return json.dumps({"error": "Missing field in body."}), 400
+    
+    new_event = Event(title = title, user = id)
+    db.session.add(new_event)
+    db.session.commit()
+    
+    return json.dumps(new_event.serailize), 201
+
 
 @app.route("/api/event/<int:id>/", methods=["POST"])
 def update_event(id):
-    pass
+    event = Event.query.filter_by(id=id).first()
+    if event == None:
+        return json.dumps({"error": "Event not found."}), 404
+    
+    body = json.loads(request.data)
+    title = body.get("title")
+    if title != None:
+        event.title = title
+
+    db.session.commit()
+    return json.dumps(event.serialize())
+
 
 @app.route("/api/event/<int:id>/", methods=["DELETE"])
 def delete_event(id):
-    pass
+    event = Event.query.filter_by(id=id).first()
+    if event == None:
+        return json.dumps({"error": "Event not found."}), 404
+    
+    db.session.delete(event)
+    db.session.commit()
+    return json.dumps(event.serialize())
 
 
 if __name__ == "__main__":

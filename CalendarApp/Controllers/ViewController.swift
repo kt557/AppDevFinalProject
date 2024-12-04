@@ -71,7 +71,7 @@ class ViewController: UIViewController {
         view.addSubview(goodMorningLabel)
         
         goodMorningLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().inset(30)
             make.top.equalToSuperview().offset(60)
             
         }

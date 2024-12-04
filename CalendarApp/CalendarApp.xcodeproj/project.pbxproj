@@ -14,6 +14,7 @@
 		8F2183462CFA8AC60077218F /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2183452CFA8ABE0077218F /* Task.swift */; };
 		8F21834A2CFAC6000077218F /* TaskCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2183492CFAC5F60077218F /* TaskCollectionViewCell.swift */; };
 		8F2183572CFFE4EA0077218F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2183562CFFE4E60077218F /* User.swift */; };
+		8F21835B2CFFF33F0077218F /* CreateProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F21835A2CFFF3330077218F /* CreateProfile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		8F2183452CFA8ABE0077218F /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		8F2183492CFAC5F60077218F /* TaskCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCollectionViewCell.swift; sourceTree = "<group>"; };
 		8F2183562CFFE4E60077218F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		8F21835A2CFFF3330077218F /* CreateProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -62,6 +64,8 @@
 		8F2182FC2CF564B60077218F = {
 			isa = PBXGroup;
 			children = (
+				8F21833B2CFA836E0077218F /* Extensions */,
+				8F2183442CFA8AB60077218F /* Models */,
 				8F21833A2CFA82F80077218F /* Controllers */,
 				8F2183072CF564B60077218F /* CalendarApp */,
 				8F2183062CF564B60077218F /* Products */,
@@ -79,9 +83,8 @@
 		8F21833A2CFA82F80077218F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				8F21835A2CFFF3330077218F /* CreateProfile.swift */,
 				8F2183322CFA82A40077218F /* ViewController.swift */,
-				8F2183442CFA8AB60077218F /* Models */,
-				8F21833B2CFA836E0077218F /* Extensions */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				8F2183362CFA82A40077218F /* ViewController.swift in Sources */,
 				8F2183462CFA8AC60077218F /* Task.swift in Sources */,
 				8F21833D2CFA837F0077218F /* UIColor+Extension.swift in Sources */,
+				8F21835B2CFFF33F0077218F /* CreateProfile.swift in Sources */,
 				8F2183572CFFE4EA0077218F /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

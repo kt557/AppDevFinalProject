@@ -68,11 +68,15 @@ def delete_user(id):
 
 @app.route("/api/events/")
 def get_all_events():
-    pass
+    return json.dumps({"events": e.serialize() for e in Event.query.all()}), 200
 
 @app.route("/api/event/<int:id>/")
 def get_event(id):
-    pass
+    event = Event.query.filter_by(id=id)
+    if event == None:
+        return json.dumps({"error": "Event not found."}), 404
+
+    return json.dumps(event.serialize()), 200
 
 @app.route("/api/user/<int:id>/events/<string:date>/")
 def get_user_events_on_date(id, date):

@@ -16,23 +16,55 @@ with app.app_context():
 # Routes here!
 @app.route("/api/users/")
 def get_all_users():
-    pass
+    return json.dumps({"users": u.serialize() for u in User.query.all()}), 200
 
 @app.route("/api/user/<int:id>/")
 def get_user(id):
-    pass
+    user = User.query.filter_by(id=id)
+    if user == None:
+        return json.dumps({"error": "User not found."}), 404
+
+    return json.dumps(user.serialize()), 200
 
 @app.route("/api/user/", methods=["POST"])
 def create_user():
-    pass
+    body = json.loads(request.data)
+    name = body.get("name")
+    if name == None:
+        return json.dumps({"error": "Missing field in body."}), 400
+    
+    new_user = User(name = name)
+    db.session.add(new_user)
+    db.session.commit()
+    
+    return json.dumps(new_user.serailize), 201
+
 
 @app.route("/api/user/<int:id>/", methods=["POST"])
 def update_user(id):
-    pass
+    user = User.query.filter_by(id=id)
+    if user == None:
+        return json.dumps({"error": "User not found."}), 404
+    
+    body = json.loads(request.data)
+    name = body.get("name")
+    if name == None:
+        return json.dumps({"error": "Missing field in body."}), 400
+    
+    user.name = name
+    db.session.commit()
+    return json.dumps(user.serialize())
+    
 
 @app.route("/api/user/<int:id>/", methods=["DELETE"])
 def delete_user(id):
-    pass
+    user = User.query.filter_by(id=id)
+    if user == None:
+        return json.dumps({"error": "User not found."}), 404
+    
+    db.session.delete(user)
+    db.session.commit()
+    return json.dumps(user.serialize()), 200
 
 @app.route("/api/events/")
 def get_all_events():

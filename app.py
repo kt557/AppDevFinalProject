@@ -18,11 +18,17 @@ with app.app_context():
 
 @app.route("/api/users/")
 def get_all_users():
+    """
+    Get all users
+    """
     return json.dumps({"users": [u.serialize() for u in User.query.all()]}), 200
 
 
 @app.route("/api/user/<int:id>/")
 def get_user(id):
+    """
+    Get a user by id
+    """
     user = User.query.filter_by(id=id).first()
     if user is None:
         return json.dumps({"error": "User not found."}), 404
@@ -32,6 +38,9 @@ def get_user(id):
 
 @app.route("/api/user/", methods=["POST"])
 def create_user():
+    """
+    Create a user
+    """
     body = json.loads(request.data)
     name = body.get("name")
     password = body.get("password")
@@ -51,6 +60,9 @@ def create_user():
 
 @app.route("/api/user/<int:id>/", methods=["POST"])
 def update_user(id):
+    """
+    Update a user
+    """
     user = User.query.filter_by(id=id).first()
     if user is None:
         return json.dumps({"error": "User not found."}), 404
@@ -69,6 +81,9 @@ def update_user(id):
 
 @app.route("/api/user/<int:id>/", methods=["DELETE"])
 def delete_user(id):
+    """
+    Delete a user
+    """
     user = User.query.filter_by(id=id).first()
     if user is None:
         return json.dumps({"error": "User not found."}), 404
@@ -80,6 +95,9 @@ def delete_user(id):
 
 @app.route("/api/users/login/")
 def login():
+    """
+    Login a user
+    """
     body = json.loads(request.data)
     name = body.get("name")
     password = body.get("password")
@@ -96,11 +114,17 @@ def login():
 
 @app.route("/api/events/")
 def get_all_events():
+    """
+    Get all events
+    """
     return json.dumps({"events": [e.serialize() for e in Event.query.all()]}), 200
 
 
 @app.route("/api/event/<int:id>/")
 def get_event(id):
+    """
+    Get an event by id
+    """
     event = Event.query.filter_by(id=id).first()
     if event is None:
         return json.dumps({"error": "Event not found."}), 404
@@ -110,6 +134,9 @@ def get_event(id):
 
 @app.route("/api/user/<int:id>/events/")
 def get_user_events(id):
+    """
+    Get all events for a user
+    """
     user = User.query.filter_by(id=id).first()
     if user is None:
         return json.dumps({"error": "User not found."}), 404
@@ -123,6 +150,9 @@ def get_user_events(id):
 
 @app.route("/api/user/<int:id>/event/", methods=["POST"])
 def create_event(id):
+    """
+    Create an event
+    """
     body = json.loads(request.data)
     title = body.get("title")
     if title is None:
@@ -137,6 +167,9 @@ def create_event(id):
 
 @app.route("/api/event/<int:id>/", methods=["POST"])
 def update_event(id):
+    """
+    Update an event
+    """
     event = Event.query.filter_by(id=id).first()
     if event is None:
         return json.dumps({"error": "Event not found."}), 404
@@ -152,6 +185,9 @@ def update_event(id):
 
 @app.route("/api/event/<int:id>/", methods=["DELETE"])
 def delete_event(id):
+    """
+    Delete an event
+    """
     event = Event.query.filter_by(id=id).first()
     if event is None:
         return json.dumps({"error": "Event not found."}), 404

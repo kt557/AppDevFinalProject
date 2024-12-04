@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Task {
-   
+struct Task: Decodable {
+    let userID : Int
     let message: String
  
 }

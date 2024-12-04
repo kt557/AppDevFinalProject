@@ -10,6 +10,8 @@ import SnapKit
 
 
 
+
+
 class ViewController: UIViewController {
     
     //MARK: - Properties (views)
@@ -22,8 +24,8 @@ class ViewController: UIViewController {
     
     
     //MARK: - Properties (data)
-    private var tasks: [Task] = [Task( message: "Submit internship applications"), Task( message: "Submit A7"), Task( message: "Fill out Ivy meal forms"), Task(message: "Finish project team applications")]
-    private var users: [User] = [User(id: "shjdksdjskd", username: "mingnaxu3", password: "helloWorld")]
+    private var tasks: [Task] = []
+    private var users: [User] = [User(id: "randomCharacters", username: "mingnaxu3", password: "helloWorld")]
     private var currentUser: User?
     
     //MARK: - viewDidLoad
@@ -40,10 +42,30 @@ class ViewController: UIViewController {
         setUpAddTaskLabel()
         setUpGoodMorningLabel()
         setUpMonthlyTaskTabel()
+        fetchTask()
 
 
     
     }
+    
+    //MARK: - Networking
+    @objc private func fetchTask() {
+        NetworkManager.shared.fetchTask { [weak self] tasks in
+            guard let self else {return}
+            self.tasks = tasks
+            DispatchQueue.main.async {
+                self.taskCollectionView.reloadData()
+            }
+            
+            
+        }
+        
+        
+            
+            
+            
+        }
+    
     
     //MARK: - Set up Views
    
@@ -97,6 +119,8 @@ class ViewController: UIViewController {
         
         taskCollectionView = UICollectionView(frame: .zero, collectionViewLayout: tLayout)
         taskCollectionView.register(TaskCollectionViewCell.self, forCellWithReuseIdentifier: TaskCollectionViewCell.reuse)
+       
+        
         taskCollectionView.dataSource = self
         taskCollectionView.delegate = self
         taskCollectionView.backgroundColor = UIColor.calendarApp.offPink
@@ -137,6 +161,7 @@ class ViewController: UIViewController {
 
 
 }
+
 
 //MARK: - UICollectionView Delegate
 extension ViewController: UICollectionViewDelegate {}

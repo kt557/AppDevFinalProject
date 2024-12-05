@@ -31,5 +31,31 @@ class NetworkManager {
                 }
             }
     }
+    func addToTaskList(task: Task, completion: @escaping (Bool) -> Void) {
+        
+        let endpoint = " http://127.0.0.1:8000/api/user/{id}/event/"
+        
+        let parameters: Parameters = [
+            
+            "title": task.message
+        ]
+        
+        let decoder = JSONDecoder()
+        
+        AF.request(endpoint, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+            .validate()
+            .responseDecodable(of: Task.self, decoder: decoder) { response in
+                switch response.result {
+                case .success(let task):
+                    print("Successfully added task \(task.message)")
+                    completion(true)
+                case .failure(let error):
+                    print("error in addToTaskList: \(error.localizedDescription)")
+                }
+            
+            }
+        
+    }
+    
 }
 

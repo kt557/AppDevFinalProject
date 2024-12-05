@@ -21,16 +21,16 @@ class CreateTaskCollectionViewCell : UICollectionViewCell {
     //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
         backgroundColor = UIColor.calendarApp.white
         layer.cornerRadius = 16
         
         setUpSubmitButton()
         setUpTextField()
-
-       
+        
+        
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -42,7 +42,8 @@ class CreateTaskCollectionViewCell : UICollectionViewCell {
         submitButton.setTitle("Submit", for: .normal)
         submitButton.setTitleColor(UIColor.calendarApp.black, for: .normal)
         submitButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .regular)
-       
+        submitButton.addTarget(self, action: #selector(addTask), for: .touchUpInside)
+        
         contentView.addSubview(submitButton)
         submitButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(16)
@@ -68,4 +69,19 @@ class CreateTaskCollectionViewCell : UICollectionViewCell {
         
     }
     
+    //MARK: Button helpers
+    @objc private func addTask() {
+        let newTask = Task(userID: 12345, message: textField.text ?? "")
+        NetworkManager.shared.addToTaskList(task: newTask) {
+            [weak self] result in
+            guard let self = self else {return}
+            if result {
+                self.textField.text = ""
+                
+            }
+            else {return}
+
+        }
+        
+    }
 }

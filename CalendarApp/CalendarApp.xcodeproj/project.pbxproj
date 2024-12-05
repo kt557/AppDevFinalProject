@@ -15,9 +15,8 @@
 		8F21834A2CFAC6000077218F /* TaskCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2183492CFAC5F60077218F /* TaskCollectionViewCell.swift */; };
 		8F2183572CFFE4EA0077218F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2183562CFFE4E60077218F /* User.swift */; };
 		8F21835B2CFFF33F0077218F /* CreateProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F21835A2CFFF3330077218F /* CreateProfile.swift */; };
-		8F2183632D0109540077218F /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 8F2183622D0109540077218F /* Alamofire */; };
-		8F2183652D0109540077218F /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 8F2183642D0109540077218F /* AlamofireDynamic */; };
 		8F2183712D010BF00077218F /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2183602D00FE8F0077218F /* NetworkManager.swift */; };
+		8F2183742D010E060077218F /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 8F2183732D010E060077218F /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,8 +58,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F2183432CFA888B0077218F /* SnapKit in Frameworks */,
-				8F2183652D0109540077218F /* AlamofireDynamic in Frameworks */,
-				8F2183632D0109540077218F /* Alamofire in Frameworks */,
+				8F2183742D010E060077218F /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,8 +150,7 @@
 			name = CalendarApp;
 			packageProductDependencies = (
 				8F2183422CFA888B0077218F /* SnapKit */,
-				8F2183622D0109540077218F /* Alamofire */,
-				8F2183642D0109540077218F /* AlamofireDynamic */,
+				8F2183732D010E060077218F /* Alamofire */,
 			);
 			productName = CalendarApp;
 			productReference = 8F2183052CF564B60077218F /* CalendarApp.app */;
@@ -185,7 +182,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				8F2183412CFA888B0077218F /* XCRemoteSwiftPackageReference "SnapKit" */,
-				8F2183612D0109540077218F /* XCRemoteSwiftPackageReference "Alamofire" */,
+				8F2183722D010E060077218F /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8F2183062CF564B60077218F /* Products */;
@@ -429,7 +426,7 @@
 				minimumVersion = 5.7.1;
 			};
 		};
-		8F2183612D0109540077218F /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		8F2183722D010E060077218F /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -445,15 +442,10 @@
 			package = 8F2183412CFA888B0077218F /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
-		8F2183622D0109540077218F /* Alamofire */ = {
+		8F2183732D010E060077218F /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 8F2183612D0109540077218F /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = 8F2183722D010E060077218F /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
-		};
-		8F2183642D0109540077218F /* AlamofireDynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8F2183612D0109540077218F /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = AlamofireDynamic;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

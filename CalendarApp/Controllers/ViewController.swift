@@ -21,6 +21,7 @@ class ViewController: UIViewController {
     private var createCollectionView: UICollectionView!
     private var monthCollectionView: UICollectionView!
     private var taskCollectionView: UICollectionView!
+    private let refresh = UIRefreshControl()
     
     
     //MARK: - Properties (data)
@@ -59,12 +60,8 @@ class ViewController: UIViewController {
             
             
         }
-        
-        
-            
-            
-            
-        }
+    }
+   
     
     
     //MARK: - Set up Views
@@ -124,6 +121,8 @@ class ViewController: UIViewController {
         taskCollectionView.dataSource = self
         taskCollectionView.delegate = self
         taskCollectionView.backgroundColor = UIColor.calendarApp.offPink
+        refresh.addTarget(self, action: #selector(fetchTask), for: .valueChanged)
+        taskCollectionView.refreshControl = refresh
         
         taskCollectionView.alwaysBounceVertical = true
         view.addSubview(taskCollectionView)

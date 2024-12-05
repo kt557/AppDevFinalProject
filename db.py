@@ -4,6 +4,7 @@ db = SQLAlchemy()
 
 # your classes here
 
+
 class User (db.Model):
     """
     User model

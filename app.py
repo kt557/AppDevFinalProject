@@ -16,6 +16,11 @@ with app.app_context():
 # Routes here!
 
 
+@app.route("/")
+def hello_world():
+    return "Hello, World!"
+
+
 @app.route("/api/users/")
 def get_all_users():
     """

@@ -15,7 +15,7 @@ class NetworkManager {
     
     //MARK: - Requests
     func fetchTask(completion: @escaping ([Task]) -> Void) {
-        let endpoint = "http://127.0.0.1:8000/api/user/{id}/events/"
+        let endpoint = "http://34.48.185.227/api/user/{id}/events/"
         
         let decoder = JSONDecoder()
         
@@ -33,7 +33,7 @@ class NetworkManager {
     }
     func addToTaskList(task: Task, completion: @escaping (Bool) -> Void) {
         
-        let endpoint = " http://127.0.0.1:8000/api/user/{id}/event/"
+        let endpoint = "http://34.48.185.227/api/user/{id}/event/"
         
         let parameters: Parameters = [
             
